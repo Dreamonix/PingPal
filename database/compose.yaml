@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:17.4-alpine
+    container_name: pingpal_postgres
+    ports:
+      - "32780:5432"
+    environment:
+      POSTGRES_USER: pingpal
+      POSTGRES_PASSWORD: pingpal
+      POSTGRES_DB: pingpal
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pingpal -d pingpal"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
